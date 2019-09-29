@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_vertical"
+    android:background="#000"
+    tools:context=".fragments.StepDetailFragment">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/recipe_step_fragment_exoPlayer_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="0dp"
+        app:resize_mode="zoom"
+        android:layout_marginTop="@dimen/layout_margin_large"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_step_fragment_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/layout_margin_large">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium">
+
+            <TextView
+                android:id="@+id/recipe_step_fragment_stepInfo_label_tv"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_info_sample"/>
+
+            <TextView
+                android:id="@+id/recipe_step_fragment_shortDescription_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recipe_step_fragment_stepInfo_label_tv"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/step_description_sample"
+                android:textSize="@dimen/text_size_medium" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
