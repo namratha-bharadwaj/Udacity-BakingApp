@@ -30,7 +30,27 @@ public class MainActivityBasicTest {
         onView(withId(R.id.activity_main_recipe_list_rv))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recipe_detail_fragment)).check(matches(isDisplayed()));
-
     }
+
+    @Test
+    public void clickRecipeListItemFromMainActivityAndValidateIngredientsTextView() throws InterruptedException {
+        Thread.sleep(1000);
+        onView(withId(R.id.activity_main_recipe_list_rv))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.add_to_widget_btn)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_ingredients_tv)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickStepRVItemAndOpenRecipeStepActivity() throws InterruptedException {
+        Thread.sleep(1000);
+        onView(withId(R.id.activity_main_recipe_list_rv))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recipe_detail_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_step_videos_rv)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recipe_step_activity_view_pager)).check(matches(isDisplayed()));
+    }
+
+
 
 }

@@ -38,7 +38,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         Intent intent1 = new Intent(context, WidgetGridRemoteViewService.class);
         intent1.putExtra("name", recipeName);
-        //views.setOnClickPendingIntent(R.id.gv_parent_for_widget, pendingIntent);
         views.setRemoteAdapter(R.id.gv_parent_for_widget, intent1);
 
         // Instruct the widget manager to update the widget
@@ -54,9 +53,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        for (int appWidgetId : appWidgetIds) {
-//               updateAppWidget(context, appWidgetManager, appWidgetId, null);
-//          }
+
     }
 
     @Override
@@ -64,11 +61,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the first widget is created
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
         views.setTextViewText(R.id.tv_widget_recipe_name, recipeName);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     @Override

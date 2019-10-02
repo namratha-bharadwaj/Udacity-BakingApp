@@ -31,12 +31,6 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Re
 
     }
 
-//    public void setRecipes(List<Recipe> recipeList) {
-//        this.recipeList = recipeList;
-//        //FIXME: do not call this method
-//        notifyDataSetChanged();
-//    }
-
     @NonNull
     @Override
     public RecipeItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.RecipeItemAdapter;
 import com.example.android.bakingapp.fragments.RecipeDetailFragment;
+import com.example.android.bakingapp.httpClient.UnsafeOkHttpClient;
 import com.example.android.bakingapp.model.JsonPlaceHolderAPI;
 import com.example.android.bakingapp.model.Recipe;
 
@@ -23,6 +24,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

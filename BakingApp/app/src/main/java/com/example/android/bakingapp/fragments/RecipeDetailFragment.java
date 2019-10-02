@@ -38,6 +38,11 @@ import java.util.List;
  */
 public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapter.RecipeStepItemClickListener {
 
+    public static final String SELECTED_RECIPE_KEY = "selected_Recipe";
+    public static final String SELECTED_INDEX_KEY = "Selected_Index";
+    public static final String SELECTED_STEPS_KEY = "Selected_Steps";
+    public static final String TITLE_KEY = "title";
+
     private TextView ingredientsListTv;
     private RecyclerView recipeStepsRv;
     private Button addToWidgetButton;
@@ -52,16 +57,11 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
     public static RecipeDetailFragment newInstance(Recipe selectedRecipe) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
         Bundle arguments = new Bundle();
-        arguments.putParcelable("selected_Recipe", Parcels.wrap(selectedRecipe));
+        arguments.putParcelable(SELECTED_RECIPE_KEY, Parcels.wrap(selectedRecipe));
         fragment.setArguments(arguments);
         return fragment;
 
     }
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Nullable
     @Override
@@ -77,7 +77,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
         try {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                selectedRecipe = Parcels.unwrap(getArguments().getParcelable("selected_Recipe"));
+                selectedRecipe = Parcels.unwrap(getArguments().getParcelable(SELECTED_RECIPE_KEY));
                 recipeIngredientsList = selectedRecipe.getRecipeIngredients();
                 recipeStepsList = selectedRecipe.getRecipeSteps();
                 List<RecipeIngredient> recipeIngredientListToAddToWidget = setupIngredientsTvAndGetList();
@@ -125,24 +125,19 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
     @Override
     public void onStepItemClick(List<RecipeStep> recipeSteps, int itemPosition, String recipeName) {
         Bundle stepBundle = new Bundle();
-        stepBundle.putInt("Selected_Index", itemPosition);
+        stepBundle.putInt(SELECTED_INDEX_KEY, itemPosition);
         final Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
-        intent.putExtra("title", recipeName);
-        intent.putExtra("Selected_Steps", Parcels.wrap(recipeSteps));
-        intent.putExtra("Selected_Index", itemPosition);
+        intent.putExtra(TITLE_KEY, recipeName);
+        intent.putExtra(SELECTED_STEPS_KEY, Parcels.wrap(recipeSteps));
+        intent.putExtra(SELECTED_INDEX_KEY, itemPosition);
         startActivity(intent);
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//    }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            selectedRecipe = Parcels.unwrap(savedInstanceState.getParcelable("selected_Recipe"));
+            selectedRecipe = Parcels.unwrap(savedInstanceState.getParcelable(SELECTED_RECIPE_KEY));
             assert selectedRecipe != null;
             recipeIngredientsList = selectedRecipe.getRecipeIngredients();
             recipeStepsList = selectedRecipe.getRecipeSteps();
@@ -152,25 +147,14 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        selectedRecipe = Parcels.unwrap(getArguments().getParcelable("selected_Recipe"));
+        selectedRecipe = Parcels.unwrap(getArguments().getParcelable(SELECTED_RECIPE_KEY));
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("selected_Recipe", Parcels.wrap(selectedRecipe));
+        outState.putParcelable(SELECTED_RECIPE_KEY, Parcels.wrap(selectedRecipe));
         outState.putString("Title", selectedRecipe.getRecipeName());
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
     }
 
 }
