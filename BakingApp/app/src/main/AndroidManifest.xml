@@ -12,7 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.RecipeStepActivity"/>
+
+        <service android:name=".widget.RecipeWidgetService" />
+        <service
+            android:name=".widget.WidgetGridRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".widget.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_provider_info" />
+        </receiver>
+
+        <activity android:name=".activities.RecipeStepActivity" />
         <activity android:name=".activities.RecipeDetailActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>

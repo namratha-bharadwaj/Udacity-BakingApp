@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f8f8ff"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:text="@string/app_name"
+        android:id="@+id/tv_widget_recipe_name" />
+
+    <GridView
+
+        android:id="@+id/gv_parent_for_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="1"
+        android:padding="8dp"
+        android:verticalSpacing="10dp"
+        tools:listitem="@layout/recipe_widget_list_item" />
+
+</LinearLayout>

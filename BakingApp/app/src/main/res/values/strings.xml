@@ -19,4 +19,12 @@
 
     <string name="sample_step_number">1</string>
     <string name="select_a_recipe">Select a recipe</string>
+
+    <string name="add_to_widget">Add to widget</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="sample_ingredient">Butter</string>
+    <string name="sample_ingredient_quantity">0.5</string>
+    <string name="sample_ingredient_measure">CUP</string>
 </resources>

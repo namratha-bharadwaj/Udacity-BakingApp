@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.RecipeItemAdapter;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements RecipeItemAdapter
     private static final String TAG = MainActivity.class.getName();
 
     RecyclerView recipeListRv;
+    TextView emptyTV;
     private RecipeItemAdapter recipeAdapter;
 
     private boolean isTablet;
@@ -42,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements RecipeItemAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        emptyTV = findViewById(R.id.empty_text);
 
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         setupRecyclerView();
     }
 
@@ -110,11 +115,21 @@ public class MainActivity extends AppCompatActivity implements RecipeItemAdapter
     public void onRecipeItemClick(Recipe recipeItemPosition) {
         setTitle(recipeItemPosition.getRecipeName());
 
-        Bundle chosenRecipeItemBundle = new Bundle();
-        chosenRecipeItemBundle.putParcelable("Recipe Chosen", Parcels.wrap(recipeItemPosition));
-        final Intent intent = new Intent(getApplicationContext(), RecipeDetailActivity.class);
-        intent.putExtra("selected_Recipe", Parcels.wrap(recipeItemPosition));
-        startActivity(intent);
+        if (isTablet) {
+            emptyTV.setVisibility(View.GONE);
+            RecipeDetailFragment fragment = new RecipeDetailFragment().newInstance(recipeItemPosition);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_fragment_detail_container, fragment).addToBackStack("detailFragment")
+                    .commit();
+        } else {
+
+            Bundle chosenRecipeItemBundle = new Bundle();
+            chosenRecipeItemBundle.putParcelable("Recipe Chosen", Parcels.wrap(recipeItemPosition));
+            final Intent intent = new Intent(getApplicationContext(), RecipeDetailActivity.class);
+            intent.putExtra("selected_Recipe", Parcels.wrap(recipeItemPosition));
+            startActivity(intent);
+        }
 
     }
 }

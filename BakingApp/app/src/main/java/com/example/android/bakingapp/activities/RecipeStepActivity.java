@@ -2,12 +2,15 @@ package com.example.android.bakingapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.adapters.RecipeStepsRVAdapter;
 import com.example.android.bakingapp.adapters.StepActivityPagerAdapter;
 import com.example.android.bakingapp.fragments.StepDetailFragment;
 import com.example.android.bakingapp.model.RecipeStep;
@@ -18,7 +21,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeStepActivity extends AppCompatActivity {
+public class RecipeStepActivity extends AppCompatActivity implements RecipeStepsRVAdapter.RecipeStepItemClickListener  {
 
     private ViewPager recipeStepViewPager;
     private TabLayout recipeStepTabLayout;
@@ -27,6 +30,11 @@ public class RecipeStepActivity extends AppCompatActivity {
     private String recipeName;
     private int selectedStepIndex;
     private int currentItem;
+    boolean isTablet;
+
+    RecipeStepsRVAdapter mRecipeStepAdapter;
+
+    private RecyclerView stepRV;
 
     private FragmentLifecycle fragmentLifecycleListener;
 
@@ -34,9 +42,11 @@ public class RecipeStepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
 
         recipeStepViewPager = findViewById(R.id.recipe_step_activity_view_pager);
         recipeStepTabLayout = findViewById(R.id.recipe_step_activity_tab_layout);
+
 
         if (savedInstanceState == null) {
             setFragmentLifecycleListenerListener(fragmentLifecycleListener);
@@ -51,6 +61,11 @@ public class RecipeStepActivity extends AppCompatActivity {
 
     private void init() {
         setAndGetIntentValues();
+        if(isTablet) {
+            RecyclerView recyclerView = findViewById(R.id.rv_step_detail);
+            setUpRecyclerView(recyclerView);
+        }
+
         List<StepDetailFragment> stepDetailFragments = getStepDetailFragments();
         setUpPager(stepDetailFragments);
     }
@@ -62,6 +77,17 @@ public class RecipeStepActivity extends AppCompatActivity {
         setTitle(recipeName);
         selectedStepIndex = intent.getIntExtra("Selected_Index", selectedStepIndex);
 
+    }
+
+    private void setUpRecyclerView(RecyclerView castedRV) {
+        castedRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mRecipeStepAdapter = new RecipeStepsRVAdapter(stepsList, this, recipeName);
+        castedRV.setAdapter(mRecipeStepAdapter);
+    }
+
+    @Override
+    public void onStepItemClick(List<RecipeStep> recipeSteps, int itemPosition, String recipeName) {
+        recipeStepViewPager.setCurrentItem(itemPosition, true);
     }
 
     private List<StepDetailFragment> getStepDetailFragments() {
@@ -127,6 +153,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         outState.putInt("Selected_Index", currentItem);
         super.onSaveInstanceState(outState);
     }
+
 
     public interface FragmentLifecycle {
 

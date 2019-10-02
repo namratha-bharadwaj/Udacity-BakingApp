@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.RecipeStepActivity;
@@ -20,9 +22,11 @@ import com.example.android.bakingapp.adapters.RecipeStepsRVAdapter;
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.model.RecipeIngredient;
 import com.example.android.bakingapp.model.RecipeStep;
+import com.example.android.bakingapp.widget.RecipeWidgetService;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,8 +38,9 @@ import java.util.List;
  */
 public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapter.RecipeStepItemClickListener {
 
-    TextView ingredientsListTv;
-    RecyclerView recipeStepsRv;
+    private TextView ingredientsListTv;
+    private RecyclerView recipeStepsRv;
+    private Button addToWidgetButton;
     private List<RecipeStep> recipeStepsList;
     private Recipe selectedRecipe;
     private List<RecipeIngredient> recipeIngredientsList;
@@ -67,6 +72,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
                 false);
         ingredientsListTv = rootView.findViewById(R.id.recipe_ingredients_tv);
         recipeStepsRv = rootView.findViewById(R.id.recipe_step_videos_rv);
+        addToWidgetButton = rootView.findViewById(R.id.add_to_widget_btn);
 
         try {
             Bundle bundle = this.getArguments();
@@ -74,7 +80,8 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
                 selectedRecipe = Parcels.unwrap(getArguments().getParcelable("selected_Recipe"));
                 recipeIngredientsList = selectedRecipe.getRecipeIngredients();
                 recipeStepsList = selectedRecipe.getRecipeSteps();
-                setupIngredientsTv();
+                List<RecipeIngredient> recipeIngredientListToAddToWidget = setupIngredientsTvAndGetList();
+                addToWidgetButton.setOnClickListener(view -> addToWidget(recipeIngredientListToAddToWidget));
 
             }
         } catch (Exception e) {
@@ -87,14 +94,23 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepsRVAdapt
 
     }
 
-    private void setupIngredientsTv() {
+    private void addToWidget(List<RecipeIngredient> ingredientsToPassToWidget) {
+        RecipeWidgetService.startWidgetService(getContext(), ingredientsToPassToWidget,
+                selectedRecipe.getRecipeName());
+        Toast.makeText(getActivity(), "Widget Updated!", Toast.LENGTH_LONG).show();
+    }
+
+    private List<RecipeIngredient> setupIngredientsTvAndGetList() {
+        List<RecipeIngredient> recipeIngredientsListToAddToWidget = new ArrayList<>();
         for (int i = 0; i < recipeIngredientsList.size(); i++) {
             ingredientsListTv.append("\u2022 " + recipeIngredientsList.get(i).getRecipeIngredientName()
                     + ": " + recipeIngredientsList.get(i)
                     .getRecipeIngredientQuantity() + " " + recipeIngredientsList.get(i)
                     .getRecipeIngredientMeasurementMetric() + "\n\n");
+            recipeIngredientsListToAddToWidget.add(recipeIngredientsList.get(i));
 
         }
+        return recipeIngredientsListToAddToWidget;
 
     }
 

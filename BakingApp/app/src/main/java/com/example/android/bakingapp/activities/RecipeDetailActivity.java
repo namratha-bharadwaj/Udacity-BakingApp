@@ -1,9 +1,13 @@
 package com.example.android.bakingapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.RecipeDetailFragment;
@@ -15,7 +19,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     private Recipe selectedRecipe;
     private String recipeName;
-    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +61,5 @@ public class RecipeDetailActivity extends AppCompatActivity {
             getFragmentManager().popBackStack();
         }
     }
+
 }
